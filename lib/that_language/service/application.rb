@@ -1,31 +1,31 @@
 require "sinatra"
-require "detect_language"
+require "that_language"
 
 module ThatLanguage
   module Service
     class Application < Sinatra::Application
       get '/' do
-        DetectLanguage.language(params['text']).locale
+        ThatLanguage.locale(params['text']).locale
       end
 
       post '/' do
-        DetectLanguage.language(params['text']).locale
+        ThatLanguage.locale(params['text']).locale
       end
 
       get '/details' do
-        DetectLanguage.details(params['text']).to_json
+        ThatLanguage.details(params['text']).to_json
       end
 
       post '/details' do
-        DetectLanguage.details(params['text']).to_json
+        ThatLanguage.details(params['text']).to_json
       end
 
-      get '/language' do
-        DetectLanguage.language(params['text']).to_json
+      get '/locale' do
+        ThatLanguage.locale(params['text']).to_json
       end
 
-      post '/language' do
-        DetectLanguage.language(params['text']).to_json
+      post '/locale' do
+        ThatLanguage.locale(params['text']).to_json
       end
     end
   end
