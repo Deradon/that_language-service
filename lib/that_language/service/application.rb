@@ -5,12 +5,20 @@ module ThatLanguage
   module Service
     class Application < Sinatra::Application
       get '/' do
-        ThatLanguage.locale(params['text']).locale
+        ThatLanguage.language_code(params['text'])
       end
 
       post '/' do
-        ThatLanguage.locale(params['text']).locale
+        ThatLanguage.language_code(params['text'])
       end
+
+      # get '/detect' do
+      #   ThatLanguage.detect(params['text']).to_json
+      # end
+      #
+      # post '/detect' do
+      #   ThatLanguage.detect(params['text']).to_json
+      # end
 
       get '/details' do
         ThatLanguage.details(params['text']).to_json
@@ -20,12 +28,12 @@ module ThatLanguage
         ThatLanguage.details(params['text']).to_json
       end
 
-      get '/locale' do
-        ThatLanguage.locale(params['text']).to_json
+      get '/language_code' do
+        ThatLanguage.language_code(params['text']).to_json
       end
 
-      post '/locale' do
-        ThatLanguage.locale(params['text']).to_json
+      post '/language_code' do
+        ThatLanguage.language_code(params['text']).to_json
       end
     end
   end
