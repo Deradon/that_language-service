@@ -13,11 +13,17 @@ module ThatLanguage
       end
 
       get '/detect' do
-        render_json(detect)
+        render_json({
+          language_code: detect.language_code,
+          confidence: detect.confidence
+        })
       end
 
       post '/detect' do
-        render_json(detect)
+        render_json({
+          language_code: detect.language_code,
+          confidence: detect.confidence
+        })
       end
 
       get '/details' do
@@ -35,15 +41,15 @@ module ThatLanguage
       end
 
       def language_code
-        ThatLanguage.language_code(text)
+        @language_code ||= ThatLanguage.language_code(text)
       end
 
       def detect
-        ThatLanguage.detect(text)
+        @detect ||= ThatLanguage.detect(text)
       end
 
       def details
-        ThatLanguage.details(text)
+        @details ||= ThatLanguage.details(text)
       end
 
       def text

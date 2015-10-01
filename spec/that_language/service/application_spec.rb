@@ -36,10 +36,10 @@ describe ThatLanguage::Service::Application do
       it { is_expected.to be_a(Hash) }
       it { is_expected.to include("language_code" => "de") }
       it { is_expected.to include("confidence" => 1.0) }
-      it { is_expected.to include("value" => 1.0) }
-      it { is_expected.to include("hit_ratio" => 1.0) }
-      it { is_expected.to include("hit_count" => 1.0) }
-      it { is_expected.to include("words_count" => 1.0) }
+      it { is_expected.not_to include("value") }
+      it { is_expected.not_to include("hit_ratio") }
+      it { is_expected.not_to include("hit_count") }
+      it { is_expected.not_to include("words_count") }
     end
   end
 end
