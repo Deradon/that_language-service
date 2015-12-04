@@ -27,11 +27,11 @@ module ThatLanguage
       end
 
       get '/details' do
-        render_json details: details
+        details.to_json
       end
 
       post '/details' do
-        render_json details: details
+        details.to_json
       end
 
     private
