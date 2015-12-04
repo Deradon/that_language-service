@@ -73,7 +73,7 @@ describe ThatLanguage::Service::Application do
   end
 
   describe "GET /version" do
-    before { get('/version') }
+    before { get("/version") }
 
     it { is_expected.to be_ok }
 
@@ -82,6 +82,52 @@ describe ThatLanguage::Service::Application do
 
       it { is_expected.to be_a(Hash) }
       it { is_expected.to include("version" => "0.1.0.pre3") }
+    end
+  end
+
+  describe "GET /available_language_codes" do
+    before { get('/available_language_codes') }
+
+    it { is_expected.to be_ok }
+
+    describe "response as a json" do
+      subject(:json) { JSON.parse(last_response.body) }
+
+      it { is_expected.to be_a(Hash) }
+      it { is_expected.to include("available_language_codes") }
+
+      describe "available_language_codes" do
+        subject { json["available_language_codes"] }
+
+        it { is_expected.to be_a(Array) }
+
+        it { is_expected.to include("ar") }
+        it { is_expected.to include("br") }
+        it { is_expected.to include("cs") }
+        it { is_expected.to include("da") }
+        it { is_expected.to include("de") }
+        it { is_expected.to include("el") }
+        it { is_expected.to include("en") }
+        it { is_expected.to include("es") }
+        it { is_expected.to include("fa") }
+        it { is_expected.to include("fi") }
+        it { is_expected.to include("fr") }
+        it { is_expected.to include("he") }
+        it { is_expected.to include("hu") }
+        it { is_expected.to include("it") }
+        it { is_expected.to include("ja") }
+        it { is_expected.to include("ko") }
+        it { is_expected.to include("kr") }
+        it { is_expected.to include("nl") }
+        it { is_expected.to include("no") }
+        it { is_expected.to include("pl") }
+        it { is_expected.to include("pt") }
+        it { is_expected.to include("ru") }
+        it { is_expected.to include("sv") }
+        it { is_expected.to include("tr") }
+        it { is_expected.to include("vi") }
+        it { is_expected.to include("zh") }
+      end
     end
   end
 end

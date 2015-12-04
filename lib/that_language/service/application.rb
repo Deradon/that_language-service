@@ -34,6 +34,12 @@ module ThatLanguage
         details.to_json
       end
 
+      get '/available_language_codes' do
+        render_json({
+          available_language_codes: ThatLanguage.available_language_codes
+        })
+      end
+
       get '/version' do
         render_json version: ThatLanguage::VERSION
       end
