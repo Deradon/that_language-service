@@ -71,4 +71,17 @@ describe ThatLanguage::Service::Application do
       end
     end
   end
+
+  describe "GET /version" do
+    before { get('/version') }
+
+    it { is_expected.to be_ok }
+
+    describe "response as a json" do
+      subject { JSON.parse(last_response.body) }
+
+      it { is_expected.to be_a(Hash) }
+      it { is_expected.to include("version" => "0.1.0.pre3") }
+    end
+  end
 end

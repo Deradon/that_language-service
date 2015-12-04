@@ -34,6 +34,10 @@ module ThatLanguage
         details.to_json
       end
 
+      get '/version' do
+        render_json version: ThatLanguage::VERSION
+      end
+
     private
 
       def render_json(hash)
