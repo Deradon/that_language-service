@@ -1,5 +1,6 @@
 require 'spec_helper'
 require 'support/that_language_service_spec_helper'
+require_relative 'empty_response_specs'
 
 describe ThatLanguage::Service::Application do
   include ThatLanguageServiceSpecHelper
@@ -22,6 +23,11 @@ describe ThatLanguage::Service::Application do
     it { is_expected.not_to include("hit_ratio") }
     it { is_expected.not_to include("hit_count") }
     it { is_expected.not_to include("words_count") }
+
+    describe "when empty payload provided" do
+      let(:payload) { "" }
+      it_behaves_like :empty_response
+    end
   end
 
   describe_endpoint "/details", payload: payload do
