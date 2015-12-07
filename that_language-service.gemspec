@@ -29,9 +29,11 @@ Gem::Specification.new do |spec|
 
   spec.add_dependency "that_language", "~> 0.1.0"
   spec.add_dependency "sinatra", "~> 1.4.6"
+  spec.add_dependency "sinatra-contrib"
   spec.add_dependency "thin", "~> 1.6.4"
 
   spec.add_development_dependency "bundler", "~> 1.10"
+  spec.add_development_dependency "pry"
   spec.add_development_dependency "rack-test"
   spec.add_development_dependency "rake", "~> 10.0"
   spec.add_development_dependency "rspec"

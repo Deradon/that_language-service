@@ -6,11 +6,16 @@ describe ThatLanguage::Service::Application do
 
   payload = "Hallo Welt"
 
+  describe_endpoint "/language", payload: payload do
+    it { is_expected.to include("language" => "German") }
+  end
+
   describe_endpoint "/language_code", payload: payload do
     it { is_expected.to include("language_code" => "de") }
   end
 
   describe_endpoint "/detect", payload: payload do
+    it { is_expected.to include("language" => "German") }
     it { is_expected.to include("language_code" => "de") }
     it { is_expected.to include("confidence" => 0.5) }
     it { is_expected.not_to include("value") }
@@ -30,6 +35,7 @@ describe ThatLanguage::Service::Application do
       describe "an entry" do
         subject { results.first }
 
+        it { is_expected.to include("language" => "German") }
         it { is_expected.to include("language_code" => "de") }
         it { is_expected.to include("confidence" => 0.5) }
         it { is_expected.to include("value" => 1) }
@@ -40,8 +46,30 @@ describe ThatLanguage::Service::Application do
     end
   end
 
-  describe_endpoint "/version", methods: [:get] do
-    it { is_expected.to include("version" => "0.1.0") }
+  describe_endpoint "/available", methods: [:get] do
+    it { is_expected.to include("available") }
+
+    describe "available" do
+      subject { json["available"] }
+
+      it { is_expected.to be_a(Hash) }
+
+      it { is_expected.to include("de" => "German") }
+      it { is_expected.to include("en" => "English") }
+    end
+  end
+
+  describe_endpoint "/available_languages", methods: [:get] do
+    it { is_expected.to include("available_languages") }
+
+    describe "available_languages" do
+      subject { json["available_languages"] }
+
+      it { is_expected.to be_a(Array) }
+
+      it { is_expected.to include("German") }
+      it { is_expected.to include("English") }
+    end
   end
 
   describe_endpoint "/available_language_codes", methods: [:get] do
@@ -53,7 +81,6 @@ describe ThatLanguage::Service::Application do
       it { is_expected.to be_a(Array) }
 
       it { is_expected.to include("ar") }
-      # it { is_expected.to include("br") }
       it { is_expected.to include("cs") }
       it { is_expected.to include("da") }
       it { is_expected.to include("de") }
@@ -68,7 +95,6 @@ describe ThatLanguage::Service::Application do
       it { is_expected.to include("it") }
       it { is_expected.to include("ja") }
       it { is_expected.to include("ko") }
-      # it { is_expected.to include("kr") }
       it { is_expected.to include("nl") }
       it { is_expected.to include("no") }
       it { is_expected.to include("pl") }
@@ -79,5 +105,9 @@ describe ThatLanguage::Service::Application do
       it { is_expected.to include("vi") }
       it { is_expected.to include("zh") }
     end
+  end
+
+  describe_endpoint "/version", methods: [:get] do
+    it { is_expected.to include("version" => "0.1.0") }
   end
 end

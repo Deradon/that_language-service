@@ -27,6 +27,14 @@ module ThatLanguageServiceSpecHelper
 
           it { is_expected.to be_ok }
 
+          describe "header" do
+            subject(:header) { last_response.header }
+
+            specify "Content-Type is JSON" do
+              expect(header["Content-Type"]).to eq("application/json")
+            end
+          end
+
           describe "response as a json" do
             subject(:json) { JSON.parse(last_response.body) }
 
