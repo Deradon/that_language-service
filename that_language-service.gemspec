@@ -11,7 +11,7 @@ Gem::Specification.new do |spec|
 
   spec.summary       = %q{Simple Sinatra wrapper for ThatLanguage.}
   # spec.description   = %q{Write a longer description or delete this line.}
-  spec.homepage      = "http://gitlab.patrick-helm.de/Ruby/that_language-service"
+  spec.homepage      = "https://github.com/Deradon/that_language-service"
   spec.license       = "MIT"
 
   # Prevent pushing this gem to RubyGems.org by setting 'allowed_push_host', or
