@@ -4,20 +4,22 @@ require 'support/that_language_service_spec_helper'
 describe ThatLanguage::Service::Application do
   include ThatLanguageServiceSpecHelper
 
-  describe_endpoint "/language_code", payload: "Hallo" do
+  payload = "Hallo Welt"
+
+  describe_endpoint "/language_code", payload: payload do
     it { is_expected.to include("language_code" => "de") }
   end
 
-  describe_endpoint "/detect", payload: "Hallo" do
+  describe_endpoint "/detect", payload: payload do
     it { is_expected.to include("language_code" => "de") }
-    it { is_expected.to include("confidence" => 1.0) }
+    it { is_expected.to include("confidence" => 0.5) }
     it { is_expected.not_to include("value") }
     it { is_expected.not_to include("hit_ratio") }
     it { is_expected.not_to include("hit_count") }
     it { is_expected.not_to include("words_count") }
   end
 
-  describe_endpoint "/details", payload: "Hallo" do
+  describe_endpoint "/details", payload: payload do
     it { is_expected.to include("results") }
 
     describe "results" do
@@ -29,17 +31,17 @@ describe ThatLanguage::Service::Application do
         subject { results.first }
 
         it { is_expected.to include("language_code" => "de") }
-        it { is_expected.to include("confidence" => 1.0) }
+        it { is_expected.to include("confidence" => 0.5) }
         it { is_expected.to include("value" => 1) }
-        it { is_expected.to include("hit_ratio" => 1) }
+        it { is_expected.to include("hit_ratio" => 0.5) }
         it { is_expected.to include("hit_count" => 1) }
-        it { is_expected.to include("words_count" => 1) }
+        it { is_expected.to include("words_count" => 2) }
       end
     end
   end
 
   describe_endpoint "/version", methods: [:get] do
-    it { is_expected.to include("version" => "0.1.0.pre3") }
+    it { is_expected.to include("version" => "0.1.0") }
   end
 
   describe_endpoint "/available_language_codes", methods: [:get] do
@@ -51,7 +53,7 @@ describe ThatLanguage::Service::Application do
       it { is_expected.to be_a(Array) }
 
       it { is_expected.to include("ar") }
-      it { is_expected.to include("br") }
+      # it { is_expected.to include("br") }
       it { is_expected.to include("cs") }
       it { is_expected.to include("da") }
       it { is_expected.to include("de") }
@@ -66,7 +68,7 @@ describe ThatLanguage::Service::Application do
       it { is_expected.to include("it") }
       it { is_expected.to include("ja") }
       it { is_expected.to include("ko") }
-      it { is_expected.to include("kr") }
+      # it { is_expected.to include("kr") }
       it { is_expected.to include("nl") }
       it { is_expected.to include("no") }
       it { is_expected.to include("pl") }
