@@ -5,17 +5,17 @@ require_relative 'empty_response_specs'
 describe ThatLanguage::Service::Application do
   include ThatLanguageServiceSpecHelper
 
-  payload = "Hallo Welt"
+  let(:payload) { "Hallo Welt" }
 
-  describe_endpoint "/language", payload: payload do
+  describe_endpoint "/language" do
     it { is_expected.to include("language" => "German") }
   end
 
-  describe_endpoint "/language_code", payload: payload do
+  describe_endpoint "/language_code" do
     it { is_expected.to include("language_code" => "de") }
   end
 
-  describe_endpoint "/detect", payload: payload do
+  describe_endpoint "/detect" do
     it { is_expected.to include("language" => "German") }
     it { is_expected.to include("language_code" => "de") }
     it { is_expected.to include("confidence" => 0.5) }
@@ -30,7 +30,7 @@ describe ThatLanguage::Service::Application do
     end
   end
 
-  describe_endpoint "/details", payload: payload do
+  describe_endpoint "/details" do
     it { is_expected.to include("results") }
 
     describe "results" do

@@ -17,9 +17,10 @@ module ThatLanguageServiceSpecHelper
   end
 
   module ClassMethods
-    def describe_endpoint(endpoint, payload: nil, methods: [:get, :post], &block)
+    def describe_endpoint(endpoint, methods: [:get, :post], &block)
       methods.each do |method|
         describe("#{method.to_s.upcase} #{endpoint}") do
+
           before do
             params = payload.nil? ? {} : { text: payload }
             send(method, endpoint, params)
