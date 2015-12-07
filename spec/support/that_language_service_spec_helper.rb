@@ -20,6 +20,8 @@ module ThatLanguageServiceSpecHelper
     def describe_endpoint(endpoint, methods: [:get, :post], &block)
       methods.each do |method|
         describe("#{method.to_s.upcase} #{endpoint}") do
+          let(:response) { last_response }
+          let(:body) { response.body }
 
           before do
             params = payload.nil? ? {} : { text: payload }
@@ -29,7 +31,7 @@ module ThatLanguageServiceSpecHelper
           it { is_expected.to be_ok }
 
           describe "header" do
-            subject(:header) { last_response.header }
+            subject(:header) { response.header }
 
             specify "Content-Type is JSON" do
               expect(header["Content-Type"]).to eq("application/json")
@@ -37,7 +39,7 @@ module ThatLanguageServiceSpecHelper
           end
 
           describe "response as a json" do
-            subject(:json) { JSON.parse(last_response.body) }
+            subject(:json) { JSON.parse(response.body) }
 
             it { is_expected.to be_a(Hash) }
             class_eval(&block)

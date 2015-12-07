@@ -14,6 +14,7 @@ module ThatLanguage
       end
 
       route :get, :post, '/detect' do
+        return render_json({}) if text.nil? || text.empty?
         render_json({
           language: ThatLanguage::Iso639[detect.language_code], # TODO: detect.language
           language_code: detect.language_code,
