@@ -38,6 +38,10 @@ describe ThatLanguage::Service::Application do
   end
 
   describe_endpoint "/details" do
+    it_behaves_like :empty_response do
+      let(:payload) { "" }
+    end
+
     it { is_expected.to include("results") }
 
     describe "results" do

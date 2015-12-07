@@ -25,6 +25,7 @@ module ThatLanguage
       end
 
       route :get, :post, '/details' do
+        return nothing_to_render unless text?
         render_json ThatLanguage.details(text)
       end
 
