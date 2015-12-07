@@ -9,10 +9,18 @@ describe ThatLanguage::Service::Application do
 
   describe_endpoint "/language" do
     it { is_expected.to include("language" => "German") }
+
+    it_behaves_like :empty_response do
+      let(:payload) { "" }
+    end
   end
 
   describe_endpoint "/language_code" do
     it { is_expected.to include("language_code" => "de") }
+
+    it_behaves_like :empty_response do
+      let(:payload) { "" }
+    end
   end
 
   describe_endpoint "/detect" do
@@ -24,9 +32,8 @@ describe ThatLanguage::Service::Application do
     it { is_expected.not_to include("hit_count") }
     it { is_expected.not_to include("words_count") }
 
-    describe "when empty payload provided" do
+    it_behaves_like :empty_response do
       let(:payload) { "" }
-      it_behaves_like :empty_response
     end
   end
 
