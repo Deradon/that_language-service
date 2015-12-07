@@ -15,7 +15,7 @@ module ThatLanguage
 
       route :get, :post, '/detect' do
         render_json({
-          language: ThatLanguage::Iso639[detect.language_code], # TODO: detect.language
+          language: detect.language,
           language_code: detect.language_code,
           confidence: detect.confidence
         })
