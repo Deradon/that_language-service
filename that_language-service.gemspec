@@ -9,8 +9,8 @@ Gem::Specification.new do |spec|
   spec.authors       = ["Patrick Helm"]
   spec.email         = ["me@patrick-helm.de"]
 
-  spec.summary       = %q{Write a short summary, because Rubygems requires one.}
-  spec.description   = %q{Write a longer description or delete this line.}
+  spec.summary       = %q{Simple Sinatra wrapper for ThatLanguage.}
+  # spec.description   = %q{Write a longer description or delete this line.}
   spec.homepage      = "http://gitlab.patrick-helm.de/Ruby/that_language-service"
   spec.license       = "MIT"
 
