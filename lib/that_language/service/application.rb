@@ -6,14 +6,17 @@ module ThatLanguage
   module Service
     class Application < Sinatra::Application
       route :get, :post, '/language' do
+        return nothing_to_render unless text?
         render_json language: ThatLanguage.language(text)
       end
 
       route :get, :post, '/language_code' do
+        return nothing_to_render unless text?
         render_json language_code: ThatLanguage.language_code(text)
       end
 
       route :get, :post, '/detect' do
+        return nothing_to_render unless text?
         render_json({
           language: detect.language,
           language_code: detect.language_code,
@@ -22,6 +25,7 @@ module ThatLanguage
       end
 
       route :get, :post, '/details' do
+        return nothing_to_render unless text?
         render_json ThatLanguage.details(text)
       end
 
@@ -58,6 +62,14 @@ module ThatLanguage
 
       def text
         params['text']
+      end
+
+      def text?
+        not text.nil? || text.empty?
+      end
+
+      def nothing_to_render
+        render_json({})
       end
     end
   end
