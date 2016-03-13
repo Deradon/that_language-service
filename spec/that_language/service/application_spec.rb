@@ -30,7 +30,7 @@ describe ThatLanguage::Service::Application do
     describe "results" do
       subject(:results) { json["results"] }
 
-      it { is_expected.to be_a(Array) }
+      it { is_expected.to be_an(Array) }
 
       describe "an entry" do
         subject { results.first }
@@ -108,6 +108,6 @@ describe ThatLanguage::Service::Application do
   end
 
   describe_endpoint "/version", methods: [:get] do
-    it { is_expected.to include("version" => "0.1.0") }
+    it { is_expected.to include("version" => "0.1.2") }
   end
 end
