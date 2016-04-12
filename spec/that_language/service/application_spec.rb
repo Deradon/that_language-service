@@ -46,7 +46,7 @@ describe ThatLanguage::Service::Application do
     end
   end
 
-  describe_endpoint "/available", methods: [:get] do
+  describe_endpoint "/available" do
     it { is_expected.to include("available") }
 
     describe "available" do
@@ -59,7 +59,7 @@ describe ThatLanguage::Service::Application do
     end
   end
 
-  describe_endpoint "/available_languages", methods: [:get] do
+  describe_endpoint "/available_languages" do
     it { is_expected.to include("available_languages") }
 
     describe "available_languages" do
@@ -72,7 +72,7 @@ describe ThatLanguage::Service::Application do
     end
   end
 
-  describe_endpoint "/available_language_codes", methods: [:get] do
+  describe_endpoint "/available_language_codes" do
     it { is_expected.to include("available_language_codes") }
 
     describe "available_language_codes" do
@@ -107,7 +107,7 @@ describe ThatLanguage::Service::Application do
     end
   end
 
-  describe_endpoint "/version", methods: [:get] do
+  describe_endpoint "/version" do
     it { is_expected.to include("version" => "0.1.2") }
   end
 end

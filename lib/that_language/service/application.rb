@@ -25,23 +25,23 @@ module ThatLanguage
         render_json ThatLanguage.details(text)
       end
 
-      get '/available' do
+      route :get, :post, '/available' do
         render_json available: ThatLanguage.available
       end
 
-      get '/available_languages' do
+      route :get, :post, '/available_languages' do
         render_json({
           available_languages: ThatLanguage.available_languages
         })
       end
 
-      get '/available_language_codes' do
+      route :get, :post, '/available_language_codes' do
         render_json({
           available_language_codes: ThatLanguage.available_language_codes
         })
       end
 
-      get '/version' do
+      route :get, :post, '/version' do
         render_json version: ThatLanguage::VERSION
       end
 
