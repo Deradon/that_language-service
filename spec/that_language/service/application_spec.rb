@@ -110,4 +110,10 @@ describe ThatLanguage::Service::Application do
   describe_endpoint "/version" do
     it { is_expected.to include("version" => "0.1.2") }
   end
+
+  context "with a referer" do
+    describe_endpoint "/version", rack_env: { "HTTP_REFERER" => "http://example.com" } do
+      # NOOP (run only the specs included in the `describe_endpoint` macro)
+    end
+  end
 end

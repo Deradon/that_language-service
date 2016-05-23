@@ -1,5 +1,9 @@
 ## 0.1.3 [☰](https://github.com/Deradon/that_language-service/compare/v0.1.2...master) (unreleased)
 
+### Bug fixes
+
+* Allow get requests with a referrer from a different domain ([Disable `Rack::Protection::JsonCsrf`](https://github.com/Deradon/that_language-service/pull/2))
+
 ### Enhancements
 
 * All routes listen to post and get requests
