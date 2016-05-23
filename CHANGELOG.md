@@ -1,4 +1,4 @@
-## 0.1.3 [☰](https://github.com/Deradon/that_language-service/compare/v0.1.2...master) (unreleased)
+## 0.1.3 [☰](https://github.com/Deradon/that_language-service/compare/v0.1.2...v0.1.3) (2016-05-23)
 
 ### Bug fixes
 
