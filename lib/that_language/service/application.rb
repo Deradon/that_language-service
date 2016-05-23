@@ -5,6 +5,8 @@ require "that_language"
 module ThatLanguage
   module Service
     class Application < Sinatra::Application
+      set :protection, except: [:json_csrf]
+
       route :get, :post, '/language' do
         render_json language: ThatLanguage.language(text)
       end
@@ -49,6 +51,7 @@ module ThatLanguage
 
       def render_json(obj)
         content_type :json
+
         obj.to_json
       end
 

@@ -17,12 +17,12 @@ module ThatLanguageServiceSpecHelper
   end
 
   module ClassMethods
-    def describe_endpoint(endpoint, payload: nil, methods: [:get, :post], &block)
+    def describe_endpoint(endpoint, payload: nil, methods: [:get, :post], rack_env: {}, &block)
       methods.each do |method|
         describe("#{method.to_s.upcase} #{endpoint}") do
           before do
             params = payload.nil? ? {} : { text: payload }
-            send(method, endpoint, params)
+            send(method, endpoint, params, rack_env)
           end
 
           it { is_expected.to be_ok }
