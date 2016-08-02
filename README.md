@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/Deradon/that_language-service.svg?branch=master)](https://travis-ci.org/Deradon/that_language-service)
+
 # ThatLanguage::Service
 
 Welcome to your new gem! In this directory, you'll find the files you need to be able to package up your Ruby library into a gem. Put your Ruby code in the file `lib/that_language/service`. To experiment with that code, run `bin/console` for an interactive prompt.
