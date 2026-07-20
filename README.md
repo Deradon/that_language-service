@@ -1,3 +1,5 @@
+[![CI](https://github.com/Deradon/that_language-service/actions/workflows/ci.yml/badge.svg)](https://github.com/Deradon/that_language-service/actions/workflows/ci.yml)
+
 # ThatLanguage::Service
 
 A thin [Sinatra](https://sinatrarb.com) wrapper that exposes the
