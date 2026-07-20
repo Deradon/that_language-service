@@ -1,10 +1,26 @@
-require "sinatra"
+require "json"
+require "sinatra/base"
 require "sinatra/multi_route"
 require "that_language"
 
 module ThatLanguage
   module Service
-    class Application < Sinatra::Application
+    # Modular style: `require "sinatra"` would boot a classic top-level app with
+    # an at_exit server runner, which is wrong for a library gem. config.ru runs
+    # this class explicitly.
+    class Application < Sinatra::Base
+      register Sinatra::MultiRoute
+
+      # Rack::Protection::JsonCsrf answers 403 to any request carrying a
+      # cross-origin Referer. This API is public, unauthenticated and read-only,
+      # and is deployed with CORS enabled precisely so browsers on other origins
+      # can call it -- so the protection would block the intended use case while
+      # guarding data that is already public. There is also no session, cookie
+      # or state change anywhere in the service for a CSRF to abuse.
+      #
+      # Revisit this if the service ever gains authentication, sessions, or an
+      # endpoint that is not a pure function of its input -- the reasoning above
+      # collapses the moment a request carries ambient authority.
       set :protection, except: [:json_csrf]
 
       route :get, :post, '/language' do

@@ -10,32 +10,37 @@ Gem::Specification.new do |spec|
   spec.email         = ["me@patrick-helm.de"]
 
   spec.summary       = %q{Simple Sinatra wrapper for ThatLanguage.}
-  # spec.description   = %q{Write a longer description or delete this line.}
+  spec.description   = %q{Exposes the ThatLanguage language-detection library over HTTP as eight JSON endpoints. Packaged as a gem rather than an application; the deployment supplies the web server.}
   spec.homepage      = "https://github.com/Deradon/that_language-service"
   spec.license       = "MIT"
 
-  # Prevent pushing this gem to RubyGems.org by setting 'allowed_push_host', or
-  # delete this section to allow pushing this gem to any host.
-  # if spec.respond_to?(:metadata)
-  #   spec.metadata['allowed_push_host'] = "TODO: Set to 'http://mygemserver.com'"
-  # else
-  #   raise "RubyGems 2.0 or newer is required to protect against public gem pushes."
-  # end
+  spec.required_ruby_version = ">= 3.1"
+
+  spec.metadata = {
+    "homepage_uri"          => spec.homepage,
+    "source_code_uri"       => spec.homepage,
+    "bug_tracker_uri"       => "#{spec.homepage}/issues",
+    "rubygems_mfa_required" => "true"
+  }
 
   spec.files         = `git ls-files -z`.split("\x0").reject { |f| f.match(%r{^(test|spec|features)/}) }
   spec.bindir        = "exe"
   spec.executables   = spec.files.grep(%r{^exe/}) { |f| File.basename(f) }
   spec.require_paths = ["lib"]
 
-  spec.add_dependency "that_language", "~> 0.1.2"
-  spec.add_dependency "sinatra", "~> 1.4.6"
-  spec.add_dependency "sinatra-contrib"
-  spec.add_dependency "thin", "~> 1.6.4"
+  spec.add_dependency "that_language", "~> 0.1"
+  spec.add_dependency "sinatra", "~> 4.2"
+  spec.add_dependency "sinatra-contrib", "~> 4.2"
 
-  spec.add_development_dependency "bundler", "~> 1.10"
+  # No web server is declared as a runtime dependency. This gem is a library;
+  # the deployment picks the server and supplies its own rackup. The old
+  # `thin ~> 1.6.4` runtime pin is exactly what made this gem uninstallable.
+  # `puma` is a development dependency so `config.ru` can be run locally.
   spec.add_development_dependency "pry"
-  spec.add_development_dependency "rack-test"
-  spec.add_development_dependency "rake", "~> 10.0"
-  spec.add_development_dependency "rspec"
-  spec.add_development_dependency "rspec-its"
+  spec.add_development_dependency "puma", "~> 8.0"
+  spec.add_development_dependency "rack-test", "~> 2.2"
+  spec.add_development_dependency "rake", "~> 13.0"
+  spec.add_development_dependency "rspec", "~> 3.13"
+  spec.add_development_dependency "rspec-its", "~> 2.0"
+  spec.add_development_dependency "rubocop", "~> 1.88"
 end

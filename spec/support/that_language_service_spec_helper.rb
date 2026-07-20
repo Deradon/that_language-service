@@ -28,7 +28,8 @@ module ThatLanguageServiceSpecHelper
           it { is_expected.to be_ok }
 
           describe "header" do
-            subject(:header) { last_response.header }
+            # Rack 3 dropped Rack::Response#header (singular).
+            subject(:header) { last_response.headers }
 
             specify "Content-Type is JSON" do
               expect(header["Content-Type"]).to eq("application/json")
