@@ -1,3 +1,29 @@
+## Unreleased
+
+### Breaking changes
+
+* **`/version` now reports this gem's version under `version`**, and the core
+  library's under a new `core_version` key. It previously returned
+  `ThatLanguage::VERSION` — the *core* gem's version — under `version` alone,
+  from an endpoint whose obvious reading is "the version of this service".
+
+  Nothing observed the difference, because the two gems have been released in
+  lockstep and are both 0.2.0. That is exactly why it is being corrected now:
+  the change is invisible today and becomes a silent wrong answer the first time
+  the gems release independently.
+
+  `that_language-client`'s `ThatLanguage.api_version` reads this key and has
+  always been documented as "the remote service's version" — so this makes that
+  documentation true rather than requiring a change there.
+
+### Added
+
+* A contract test, `bin/contract`, run as a third CI job. It starts a real
+  service from the working tree and asserts that every endpoint serializes
+  exactly the JSON projection of the core gem's return value. The spec suite is
+  `rack-test` in-process and so can only assert what this app already does;
+  this is the check that would notice this app drifting from the gem it exposes.
+
 ## 0.2.0 [☰](https://github.com/Deradon/that_language-service/compare/v0.1.3...v0.2.0) (2026-07-20)
 
 Revival release, and the first one that is actually installable: `gem install

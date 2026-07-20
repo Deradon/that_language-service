@@ -40,17 +40,14 @@ payloads = {
   'available_languages' => { available_languages: ThatLanguage.available_languages },
   'available_language_codes' => { available_language_codes: ThatLanguage.available_language_codes },
 
-  # ThatLanguage::VERSION, not ThatLanguage::Service::VERSION. The endpoint
-  # reports the *core* gem's version, which is what this line pins.
+  # Only `core_version` appears here. The endpoint also returns `version`, the
+  # service's own version, which the core gem has no counterpart for -- it is
+  # stripped from both sides by Canonical::SERVICE_OWNED and asserted in the
+  # service's spec suite instead.
   #
-  # That is a real question spanning three repositories -- the client documents
-  # its `api_version` as "the remote service's version", which this makes wrong
-  # -- and it is invisible today only because both gems are 0.2.0. It is
-  # recorded rather than silently corrected: see the project's decision note on
-  # the wire-format contract. This probe therefore pins *current* behaviour on
-  # purpose. If the endpoint is later changed to report the service's own
-  # version, this line is the one that must change with it.
-  'version' => { version: ThatLanguage::VERSION }
+  # So this side does not need to know that `version` exists, and the absence of
+  # a line for it here is the design rather than an omission.
+  'version' => { core_version: ThatLanguage::VERSION }
 }
 
 projected = payloads.transform_values { |body| JSON.parse(body.to_json) }

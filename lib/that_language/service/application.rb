@@ -59,8 +59,22 @@ module ThatLanguage
         })
       end
 
+      # `version` is *this gem's* version; `core_version` is the detection
+      # library behind it. Both constants live under the ThatLanguage namespace,
+      # so both prefixes are written out in full: inside `module ThatLanguage;
+      # module Service`, a bare `VERSION` resolves to Service::VERSION, which
+      # makes the difference between these two a single token that is easy to
+      # change by accident and invisible while the gems share a number.
+      #
+      # Until 2026-07-20 this returned ThatLanguage::VERSION under the `version`
+      # key alone -- the core library's version, from an endpoint whose obvious
+      # reading is "the version of this service". The two gems have been
+      # released in lockstep so far, so nothing ever observed the difference.
       route :get, :post, '/version' do
-        render_json version: ThatLanguage::VERSION
+        render_json({
+          version: ThatLanguage::Service::VERSION,
+          core_version: ThatLanguage::VERSION
+        })
       end
 
     private

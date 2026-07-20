@@ -48,6 +48,25 @@ module Canonical
   # keys is drift too, and reddens the `detect.keys` invariant.
   DETECT_PROJECTION = [:language, :language_code, :confidence].freeze
 
+  # Keys the service owns outright, which the core gem has no counterpart for
+  # and therefore cannot be compared against it.
+  #
+  # /version reports two things: `version` is this gem's own version, and
+  # `core_version` is the detection library behind it. Only the second is a
+  # projection of a core gem value, so only the second belongs in a contract
+  # test. `version` is stripped from both sides here.
+  #
+  # This is the mirror image of DETECT_PROJECTION above: there the service says
+  # *less* than the core gem, here it says *more*. Both are declared as data for
+  # the same reason -- so the shape is a decision recorded in this file rather
+  # than something discovered when the diff goes red.
+  #
+  # Stripping it here does not leave it unchecked. `version` is asserted in the
+  # service's own spec suite, which is the right home for it: service-owned
+  # surface is the one thing those specs *can* meaningfully assert, since the
+  # objection to them is that they only ever test this app against itself.
+  SERVICE_OWNED = { 'version' => ['version'].freeze }.freeze
+
   # The eight endpoints, in the order they appear in application.rb.
   ENDPOINTS = %w[
     language
@@ -71,11 +90,23 @@ module Canonical
     # ~70 entries, and on a single line any one-language drift produces a diff
     # nobody can read. Flattened, the diff points straight at the key.
     def emit(payloads)
-      lines = payloads.flat_map { |endpoint, body| leaves(endpoint, body) }.sort
-      lines + invariants(payloads)
+      shared = strip_service_owned(payloads)
+      lines = shared.flat_map { |endpoint, body| leaves(endpoint, body) }.sort
+
+      lines + invariants(shared)
     end
 
   private
+
+    # Applied to both sides, so the core probe need not know these keys exist
+    # and the service probe need not pretend they do not.
+    def strip_service_owned(payloads)
+      payloads.to_h do |endpoint, body|
+        owned = SERVICE_OWNED.fetch(endpoint, [])
+
+        [endpoint, body.is_a?(Hash) ? body.except(*owned) : body]
+      end
+    end
 
     def leaves(prefix, value, out = [])
       case value

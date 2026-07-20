@@ -48,7 +48,7 @@ parameter, and responds with `Content-Type: application/json`.
 | `/available` | `{"available": {"de": "German", …}}` |
 | `/available_languages` | list of language names |
 | `/available_language_codes` | list of language codes |
-| `/version` | the **core library** version, not the service version |
+| `/version` | `{"version": …, "core_version": …}` — this service, and the core library behind it |
 
 `/details` returns every candidate language with its scoring breakdown:
 

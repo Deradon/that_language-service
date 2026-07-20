@@ -108,11 +108,21 @@ describe ThatLanguage::Service::Application do
   end
 
   describe_endpoint "/version" do
-    # /version reports the *core* gem's version, not this gem's. Asserted
-    # against the constant rather than a literal: a hardcoded version here
-    # passes until the day the core gem is released, then fails for a reason
+    # Asserted against the constants rather than literals: a hardcoded version
+    # here passes until the day either gem is released, then fails for a reason
     # that has nothing to do with the endpoint.
-    it { is_expected.to include("version" => ThatLanguage::VERSION) }
+    #
+    # These two are the reason this endpoint has its own specs at all. The
+    # contract test cannot check `version` -- it is this gem's own version, so
+    # the core gem has no counterpart to compare it against, and it is excluded
+    # there by construction. Service-owned surface is asserted here; shared
+    # surface is asserted by the contract test. `core_version` is checked in
+    # both places, and deliberately so.
+    #
+    # They are equal today, so an assertion that confused them would still pass.
+    # Keep both, and keep them distinct.
+    it { is_expected.to include("version" => ThatLanguage::Service::VERSION) }
+    it { is_expected.to include("core_version" => ThatLanguage::VERSION) }
   end
 
   context "with a referer" do
