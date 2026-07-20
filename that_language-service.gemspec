@@ -28,7 +28,10 @@ Gem::Specification.new do |spec|
   spec.executables   = spec.files.grep(%r{^exe/}) { |f| File.basename(f) }
   spec.require_paths = ["lib"]
 
-  spec.add_dependency "that_language", "~> 0.1"
+  # Must not be loosened to "~> 0.1". The published 0.1.x predates the Ruby 3+
+  # fixes in the core gem, so a looser pin resolves to a version that installs
+  # cleanly and then raises on the first request.
+  spec.add_dependency "that_language", "~> 0.2"
   spec.add_dependency "sinatra", "~> 4.2"
   spec.add_dependency "sinatra-contrib", "~> 4.2"
 

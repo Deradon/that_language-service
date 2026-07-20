@@ -108,7 +108,11 @@ describe ThatLanguage::Service::Application do
   end
 
   describe_endpoint "/version" do
-    it { is_expected.to include("version" => "0.1.2") }
+    # /version reports the *core* gem's version, not this gem's. Asserted
+    # against the constant rather than a literal: a hardcoded version here
+    # passes until the day the core gem is released, then fails for a reason
+    # that has nothing to do with the endpoint.
+    it { is_expected.to include("version" => ThatLanguage::VERSION) }
   end
 
   context "with a referer" do
