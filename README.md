@@ -17,13 +17,8 @@ Add it to your Gemfile:
 gem "that_language-service"
 ```
 
-> **Note.** The published `that_language` 0.1.2 on rubygems.org predates the
-> Ruby 3+ fixes and will not run on a modern Ruby. Until `that_language` 0.1.3
-> is released, point at the source directly:
->
-> ```ruby
-> gem "that_language", git: "https://github.com/Deradon/that_language.git"
-> ```
+Requires Ruby 3.1 or later. The `that_language` core gem is pulled in
+automatically; no git source or extra declaration is needed.
 
 ## Running it
 
