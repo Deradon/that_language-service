@@ -1,0 +1,27 @@
+# frozen_string_literal: true
+
+# This gem, from the working tree -- NOT from rubygems.
+#
+# The whole point is to test the code in the branch under CI. Resolving
+# that_language-service from rubygems would test the last release instead, and
+# would therefore pass on a pull request that breaks the projection. This is the
+# easiest thing in the harness to get wrong, and it fails silently when wrong:
+# the test still runs, still goes green, and no longer means anything.
+#
+# The gemspec pins that_language ~> 0.2 and gemspec dependencies are transitive,
+# so the core gem arrives here on its own -- at the same version core.gemfile
+# resolves, which is what makes the two sides comparable.
+#
+# No web server is declared as a *runtime* dependency on purpose: this gem is a
+# library and the deployment picks the server. puma is already a development
+# dependency so config.ru can be run locally, and `gemspec` pulls development
+# dependencies in -- so it must not be repeated here, or Bundler rejects the
+# file for specifying the same gem twice.
+#
+# rackup is the one addition: Rack 3 split the rackup binary out into its own
+# gem, and nothing in the gemspec depends on it.
+source 'https://rubygems.org'
+
+gemspec path: '../..'
+
+gem 'rackup', '~> 2.2'

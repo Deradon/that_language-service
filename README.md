@@ -87,12 +87,47 @@ not set here; the deployment adds them.
 
 ```console
 $ bundle install
-$ bundle exec rspec
+$ bundle exec rspec       # 161 examples, 0 failures
 $ bundle exec rubocop
+$ bin/contract            # this service vs the core gem
 ```
 
 Requires Ruby >= 3.1; developed and pinned against 4.0.6
 (see `.tool-versions`).
+
+`.rspec` sets `--fail-fast`, so a run that stops early reads as though examples
+disappeared. If the count is below 161, look for a failure before concluding the
+suite shrank.
+
+### The contract test
+
+The specs are `rack-test` against the app in-process. They assert what this app
+does, which means they cannot notice this app drifting from the core gem it
+exposes — the same blind spot that let the client's return types diverge from
+the core gem's for a decade while its suite stayed green.
+
+`bin/contract` closes that gap. It starts a real service from the working tree
+and compares every endpoint against the core gem in a separate process:
+
+> Each endpoint's payload must equal the JSON projection of the core gem's
+> return value — `JSON.parse(body) == JSON.parse(<core value>.to_json)`.
+
+Things worth knowing before you touch it:
+
+- **The wire erases types.** The core gem returns symbols for language names and
+  codes; JSON has no symbols, so the symbol/string distinction cannot be
+  asserted across HTTP. Sortedness, ranking and the `/detect` key set are
+  therefore checked as explicit invariants — a diff alone proves the two sides
+  agree, not that either is right. See `contract/canonical.rb`, which is where
+  the reasoning lives.
+- **`/detect` is a deliberate subset** of `Result#to_h`: three keys, not seven.
+  It is pinned in both directions, so returning all seven is drift too.
+- **`contract/gemfiles/service.gemfile` resolves this gem from the working
+  tree**, not from rubygems. From rubygems it would test the last release and
+  pass on a branch that breaks the projection.
+- **The job goes red when the core gem changes**, not only this repository. That
+  is the point of a contract test, but it means a red badge here is not always a
+  bug here.
 
 ## Contributing
 

@@ -33,3 +33,25 @@ jobs:
           ruby-version: "4.0"
           bundler-cache: true
       - run: bundle exec rubocop
+
+  contract:
+    name: contract (service vs the core gem)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: "4.0"
+          bundler-cache: true
+
+      # Every assertion lives in bin/contract so it is runnable locally against
+      # the same gems, rather than only reproducible by pushing.
+      #
+      # This job starts a real service from this working tree and compares every
+      # endpoint against the core that_language gem. It therefore goes red when
+      # *the core gem* changes, not only when this repository does -- which is
+      # the entire point of a contract test, but is worth knowing before it
+      # happens. The rspec job above is rack-test against the app in-process; it
+      # asserts what this app does, so it cannot catch this class of drift.
+      - name: Contract
+        run: ./bin/contract
